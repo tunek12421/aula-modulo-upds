@@ -1,0 +1,6 @@
+.env
+*.db
+obtener-materia
+obtener-materia-linux
+test.csv
+.claude/
