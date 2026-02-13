@@ -1,14 +1,3 @@
-// === Tab switching ===
-document.querySelectorAll('.nav-item').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    var tab = btn.dataset.tab;
-    document.querySelectorAll('.nav-item').forEach(function (b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-    document.querySelectorAll('.tab-content').forEach(function (t) { t.classList.add('hidden'); });
-    document.getElementById('tab-' + tab).classList.remove('hidden');
-  });
-});
-
 // === Consultar ===
 document.getElementById('loginForm').addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -19,7 +8,9 @@ document.getElementById('loginForm').addEventListener('submit', async function (
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span><span class="btn-text">Consultando...</span>';
   errorBox.classList.add('hidden');
-  results.style.display = 'none';
+  results.classList.remove('visible');
+  document.querySelector('.panel').classList.remove('hidden-panel');
+  document.querySelector('.hero').classList.remove('hidden-panel');
 
   try {
     var resp = await fetch('/api/consultar', {
@@ -35,45 +26,58 @@ document.getElementById('loginForm').addEventListener('submit', async function (
       return;
     }
 
-    document.getElementById('infoBar').innerHTML =
-      infoCard('Estudiante', data.usuario) +
-      infoCard('Sede', data.sede) +
-      infoCard('Carrera', data.carrera) +
-      infoCard('Total cursadas', data.total);
-
     var list = document.getElementById('materiasList');
     list.innerHTML = '';
 
     if (data.pendientes && data.pendientes.length > 0) {
-      document.getElementById('resultsTitle').textContent =
-        data.pendientes.length + ' materia(s) pendiente(s)';
+      document.getElementById('resultsTitle').innerHTML =
+        '<span class="results-name">' + (data.usuario || '') + '</span>' +
+        '<span class="results-count">' + data.pendientes.length + ' materia(s) actual(es)</span>';
       data.pendientes.forEach(function (m, i) {
         var docente = m.ApellidoPaterno + ' ' + m.ApellidoMaterno + ' ' + m.NombreDocente;
+        // Parse aula number from Horario (e.g. "212 : LU a VI 07:15 - 10:15")
+        var aula = '-';
+        var horarioText = m.Horario || '';
+        var parts = horarioText.split(':');
+        if (parts.length >= 2) {
+          aula = parts[0].trim();
+          horarioText = parts.slice(1).join(':').trim();
+        }
         var card = document.createElement('div');
         card.className = 'materia-card';
         card.style.animationDelay = (i * 0.06) + 's';
         card.innerHTML =
-          '<div class="materia-header">' +
-            '<span class="materia-nombre">' + m.Materia + '</span>' +
-            '<span class="materia-sigla">' + m.Sigla + '</span>' +
+          '<div class="materia-nombre">' + m.Materia + '</div>' +
+          '<div class="materia-hero">' +
+            '<div class="materia-hero-item">' +
+              '<div class="materia-hero-label">Aula</div>' +
+              '<div class="materia-hero-value materia-aula">' + aula + '</div>' +
+            '</div>' +
+            '<div class="materia-hero-item">' +
+              '<div class="materia-hero-label">Horario</div>' +
+              '<div class="materia-hero-value">' + horarioText + '</div>' +
+            '</div>' +
+            '<div class="materia-hero-item">' +
+              '<div class="materia-hero-label">Docente</div>' +
+              '<div class="materia-hero-value">' + docente + '</div>' +
+            '</div>' +
           '</div>' +
-          '<div class="materia-grid">' +
-            mfield('Periodo', m.Descripcion) +
-            mfield('Grupo', m.Grupo) +
-            mfield('Horario', m.Horario) +
-            mfield('Turno', m.Turno) +
-            mfield('Semestre', m.Semestre) +
-            mfield('Docente', docente) +
-            mfield('Sistema', m.SistemaEstudio) +
-            mfield('Estado', '<span class="badge-pending">Pendiente</span>') +
+          '<div class="materia-meta">' +
+            '<span>' + m.Turno + '</span>' +
+            '<span>' + m.Semestre + '</span>' +
+            '<span>' + m.Descripcion + '</span>' +
           '</div>';
         list.appendChild(card);
       });
     } else {
-      list.innerHTML = '<div class="empty">Sin materias pendientes</div>';
-      document.getElementById('resultsTitle').textContent = 'Todo al dia';
+      list.innerHTML = '<div class="empty">Sin materias actuales</div>';
+      document.getElementById('resultsTitle').innerHTML =
+        '<span class="results-name">' + (data.usuario || '') + '</span>' +
+        '<span class="results-count">Todo al dia</span>';
     }
-    results.style.display = 'block';
+    results.classList.add('visible');
+    document.querySelector('.panel').classList.add('hidden-panel');
+    document.querySelector('.hero').classList.add('hidden-panel');
   } catch (err) {
     errorBox.textContent = 'Error de conexion: ' + err.message;
     errorBox.classList.remove('hidden');
@@ -83,66 +87,11 @@ document.getElementById('loginForm').addEventListener('submit', async function (
   }
 });
 
-// === Importar CSV ===
-var uploadArea = document.getElementById('uploadArea');
-var csvFile = document.getElementById('csvFile');
-var fileName = document.getElementById('fileName');
-var btnImport = document.getElementById('btnImport');
-
-uploadArea.addEventListener('click', function () { csvFile.click(); });
-uploadArea.addEventListener('dragover', function (e) { e.preventDefault(); uploadArea.classList.add('dragover'); });
-uploadArea.addEventListener('dragleave', function () { uploadArea.classList.remove('dragover'); });
-uploadArea.addEventListener('drop', function (e) {
-  e.preventDefault();
-  uploadArea.classList.remove('dragover');
-  if (e.dataTransfer.files.length) {
-    csvFile.files = e.dataTransfer.files;
-    onFileSelected();
-  }
-});
-csvFile.addEventListener('change', onFileSelected);
-
-function onFileSelected() {
-  if (csvFile.files.length) {
-    fileName.textContent = csvFile.files[0].name;
-    btnImport.disabled = false;
-  }
-}
-
-document.getElementById('importForm').addEventListener('submit', async function (e) {
-  e.preventDefault();
-  var resultDiv = document.getElementById('importResult');
-
-  btnImport.disabled = true;
-  btnImport.innerHTML = '<span class="spinner"></span><span class="btn-text">Importando...</span>';
-  resultDiv.classList.add('hidden');
-
-  var formData = new FormData();
-  formData.append('archivo', csvFile.files[0]);
-
-  try {
-    var resp = await fetch('/api/importar', { method: 'POST', body: formData });
-    var data = await resp.json();
-
-    if (data.error) {
-      resultDiv.className = 'alert alert-error';
-      resultDiv.textContent = data.error;
-    } else {
-      resultDiv.className = 'alert alert-success';
-      var msg = 'Importados: ' + data.importados + ' estudiantes';
-      if (data.errores > 0) msg += ' | Errores: ' + data.errores;
-      msg += ' | Total en BD: ' + data.totalEnBD;
-      resultDiv.textContent = msg;
-    }
-    resultDiv.classList.remove('hidden');
-  } catch (err) {
-    resultDiv.className = 'alert alert-error';
-    resultDiv.textContent = 'Error: ' + err.message;
-    resultDiv.classList.remove('hidden');
-  } finally {
-    btnImport.disabled = false;
-    btnImport.innerHTML = '<span class="btn-text">Importar</span><span class="btn-arrow">&rarr;</span>';
-  }
+// === Volver ===
+document.getElementById('btnBack').addEventListener('click', function () {
+  document.getElementById('results').classList.remove('visible');
+  document.querySelector('.panel').classList.remove('hidden-panel');
+  document.querySelector('.hero').classList.remove('hidden-panel');
 });
 
 // === Helpers ===

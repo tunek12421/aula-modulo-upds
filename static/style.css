@@ -44,9 +44,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 680px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 0 28px;
+  padding: 0 32px;
 }
 
 /* === Hero / Title === */
@@ -275,129 +275,154 @@ body {
   color: rgba(52, 211, 153, 0.8);
 }
 
-/* === Results === */
+/* === Results (overlay) === */
 #results {
   display: none;
-  margin-top: 14px;
-  animation: fadeUp 0.5s var(--ease);
+  width: 100%;
+  animation: fadeUp 0.4s var(--ease);
 }
 
-.info-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  margin-bottom: 14px;
+#results.visible {
+  display: block;
 }
 
-.info-card {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: 8px;
-  padding: 12px 14px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+.hidden-panel {
+  display: none !important;
 }
 
-.info-card-label {
-  font-size: 9px;
-  font-weight: 400;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 4px;
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-bottom: 12px;
+  transition: color 0.3s var(--ease);
 }
 
-.info-card-value {
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: -0.01em;
+.btn-back:hover {
+  color: #fff;
 }
 
 .results-title {
-  font-size: 11px;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.results-name {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.results-count {
+  font-size: 14px;
   font-weight: 400;
   color: var(--text-dim);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 10px;
 }
 
 /* === Materia Cards === */
 .materia-card {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: 10px;
-  padding: 16px 18px;
-  margin-bottom: 6px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(10, 14, 28, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  padding: 36px 40px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   transition: all 0.3s var(--ease);
   animation: fadeUp 0.4s var(--ease) both;
 }
 
-.materia-card:hover {
-  background: var(--glass-hover);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.materia-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-
 .materia-nombre {
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 28px;
+  line-height: 1.15;
+  text-shadow: 0 0 8px rgba(255,255,255,0.1);
 }
 
-.materia-sigla {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.04);
-  padding: 3px 10px;
-  border-radius: 20px;
-  letter-spacing: 0.05em;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.materia-hero {
+  display: flex;
+  gap: 28px;
+  align-items: stretch;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.materia-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 8px;
+.materia-hero-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.materia-field-label {
-  font-size: 9px;
-  font-weight: 400;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 2px;
+.materia-hero-item:first-child {
+  flex: 0 0 auto;
+  min-width: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 24px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.08), inset 0 0 24px rgba(255, 255, 255, 0.04);
 }
 
-.materia-field-value {
+.materia-hero-label {
   font-size: 12px;
+  font-weight: 500;
   color: var(--text-dim);
-  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 8px;
 }
 
-.badge-pending {
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(251, 191, 36, 0.7);
-  background: rgba(251, 191, 36, 0.06);
-  padding: 2px 8px;
-  border-radius: 20px;
-  border: 1px solid rgba(251, 191, 36, 0.1);
+.materia-hero-item:first-child .materia-hero-label {
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+}
+
+.materia-hero-value {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.materia-aula {
+  font-size: 64px;
+  font-weight: 700;
+  color: #fff;
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 30px rgba(255,255,255,0.5), 0 0 80px rgba(255,255,255,0.15);
+  line-height: 1;
+}
+
+.materia-meta {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 15px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
 }
 
 .empty {
@@ -543,14 +568,15 @@ body {
 
 /* === Responsive === */
 @media (max-width: 480px) {
-  .layout { padding: 0 18px; }
-  .panel { padding: 22px 18px; }
-  .info-grid { grid-template-columns: 1fr; }
-  .materia-grid { grid-template-columns: 1fr 1fr; }
+  .layout { padding: 0 16px; }
+  .panel { padding: 24px 20px; }
+  .materia-hero { flex-direction: column; gap: 16px; }
+  .materia-hero-item:first-child { min-width: unset; flex-direction: row; gap: 16px; padding: 16px 24px; }
+  .materia-aula { font-size: 48px; }
+  .materia-nombre { font-size: 24px; }
+  .materia-hero-value { font-size: 17px; }
   .hero { padding: 0 0 18px; }
   .hero-title { letter-spacing: 0.25em; }
-}
-
-@media (min-width: 768px) {
-  .materia-grid { grid-template-columns: repeat(4, 1fr); }
+  .materia-card { padding: 28px 22px; }
+  .results-name { font-size: 20px; }
 }

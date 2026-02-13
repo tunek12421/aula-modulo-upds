@@ -171,7 +171,7 @@ func obtenerInscripcion(client *http.Client) (inscripcion int, tipo int, carrera
 	}
 
 	c := carreras[0]
-	return c.ID, c.SistemaEnsenanza, c.PlanEstudio.Carrera.Nombre + " " + c.PlanEstudio.Sigla, nil
+	return c.ID, c.SistemaEnsenanza, c.PlanEstudio.Carrera.Nombre, nil
 }
 
 func obtenerHistorico(client *http.Client, inscripcion, tipo int) ([]Materia, error) {

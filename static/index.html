@@ -27,60 +27,26 @@
 
   <!-- Main Content -->
   <main class="main">
-    <!-- Nav Tabs -->
-    <nav class="nav">
-      <button class="nav-item active" data-tab="consultar">Consultar</button>
-      <button class="nav-item" data-tab="importar">Importar</button>
-    </nav>
-
-    <!-- Tab: Consultar -->
-    <section id="tab-consultar" class="tab-content">
-      <div class="panel">
-        <form id="loginForm" class="form">
-          <div class="input-group">
-            <label for="ci">Carnet de Identidad</label>
-            <input type="text" id="ci" placeholder="9491537" required autocomplete="off">
-          </div>
-          <button type="submit" class="btn-primary" id="btnSubmit">
-            <span class="btn-text">Consultar</span>
-            <span class="btn-arrow">&rarr;</span>
-          </button>
-        </form>
-        <div id="errorBox" class="alert alert-error hidden"></div>
-      </div>
-
-      <!-- Results -->
-      <div id="results">
-        <div class="info-grid" id="infoBar"></div>
-        <div class="results-header">
-          <h3 id="resultsTitle" class="results-title"></h3>
+    <div class="panel">
+      <form id="loginForm" class="form">
+        <div class="input-group">
+          <label for="ci">Carnet de Identidad</label>
+          <input type="text" id="ci" placeholder="1234567" required autocomplete="off">
         </div>
-        <div id="materiasList" class="materias-list"></div>
-      </div>
-    </section>
+        <button type="submit" class="btn-primary" id="btnSubmit">
+          <span class="btn-text">Consultar</span>
+          <span class="btn-arrow">&rarr;</span>
+        </button>
+      </form>
+      <div id="errorBox" class="alert alert-error hidden"></div>
+    </div>
 
-    <!-- Tab: Importar -->
-    <section id="tab-importar" class="tab-content hidden">
-      <div class="panel">
-        <form id="importForm" class="form">
-          <div class="drop-zone" id="uploadArea">
-            <p class="drop-zone-text">Arrastra CSV o <span class="drop-zone-link">selecciona</span></p>
-            <p class="drop-zone-filename" id="fileName"></p>
-            <input type="file" id="csvFile" accept=".csv" style="display:none">
-          </div>
-          <div class="code-block">
-            <span class="code-label">formato</span>
-            <pre class="code-body">ci,pin
-9491537,325658</pre>
-          </div>
-          <button type="submit" class="btn-primary btn-accent" id="btnImport" disabled>
-            <span class="btn-text">Importar</span>
-            <span class="btn-arrow">&rarr;</span>
-          </button>
-        </form>
-        <div id="importResult" class="alert hidden"></div>
-      </div>
-    </section>
+    <!-- Results (overlay) -->
+    <div id="results">
+      <button class="btn-back" id="btnBack">&larr; Volver</button>
+      <div id="resultsTitle" class="results-title"></div>
+      <div id="materiasList" class="materias-list"></div>
+    </div>
   </main>
 
   <!-- Footer -->
