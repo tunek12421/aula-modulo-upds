@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TU AULA — UPDS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<div class="layout">
+  <!-- Hero title -->
+  <header class="hero">
+    <h1 class="hero-title">
+      <span class="letter" style="--i:0">T</span><span class="letter" style="--i:1">U</span><span class="letter-space"></span><span class="letter" style="--i:2">A</span><span class="letter" style="--i:3">U</span><span class="letter" style="--i:4">L</span><span class="letter" style="--i:5">A</span>
+    </h1>
+    <p class="hero-sub">
+      <span class="letter-sm dim">H</span><span class="letter-sm dim">o</span><span class="letter-sm dim">r</span><span class="letter-sm dim">a</span><span class="letter-sm dim">r</span><span class="letter-sm dim">i</span><span class="letter-sm dim">o</span><span class="letter-space-sm"></span><span class="letter-sm dim">y</span><span class="letter-space-sm"></span><span class="letter-sm dim">a</span><span class="letter-sm dim">u</span><span class="letter-sm dim">l</span><span class="letter-sm dim">a</span><span class="letter-space-sm"></span><span class="letter-sm dim">d</span><span class="letter-sm dim">e</span><span class="letter-space-sm"></span><span class="letter-sm dim">t</span><span class="letter-sm dim">u</span><span class="letter-space-sm"></span><span class="letter-sm dim">m</span><span class="letter-sm dim">o</span><span class="letter-sm dim">d</span><span class="letter-sm dim">u</span><span class="letter-sm dim">l</span><span class="letter-sm dim">o</span><span class="letter-space-sm"></span><span class="letter-sm" style="--i:6">U</span><span class="letter-sm" style="--i:7">P</span><span class="letter-sm" style="--i:8">D</span><span class="letter-sm" style="--i:9">S</span>
+    </p>
+    <div class="hero-line"></div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Nav Tabs -->
+    <nav class="nav">
+      <button class="nav-item active" data-tab="consultar">Consultar</button>
+      <button class="nav-item" data-tab="importar">Importar</button>
+    </nav>
+
+    <!-- Tab: Consultar -->
+    <section id="tab-consultar" class="tab-content">
+      <div class="panel">
+        <form id="loginForm" class="form">
+          <div class="input-group">
+            <label for="ci">Carnet de Identidad</label>
+            <input type="text" id="ci" placeholder="9491537" required autocomplete="off">
+          </div>
+          <button type="submit" class="btn-primary" id="btnSubmit">
+            <span class="btn-text">Consultar</span>
+            <span class="btn-arrow">&rarr;</span>
+          </button>
+        </form>
+        <div id="errorBox" class="alert alert-error hidden"></div>
+      </div>
+
+      <!-- Results -->
+      <div id="results">
+        <div class="info-grid" id="infoBar"></div>
+        <div class="results-header">
+          <h3 id="resultsTitle" class="results-title"></h3>
+        </div>
+        <div id="materiasList" class="materias-list"></div>
+      </div>
+    </section>
+
+    <!-- Tab: Importar -->
+    <section id="tab-importar" class="tab-content hidden">
+      <div class="panel">
+        <form id="importForm" class="form">
+          <div class="drop-zone" id="uploadArea">
+            <p class="drop-zone-text">Arrastra CSV o <span class="drop-zone-link">selecciona</span></p>
+            <p class="drop-zone-filename" id="fileName"></p>
+            <input type="file" id="csvFile" accept=".csv" style="display:none">
+          </div>
+          <div class="code-block">
+            <span class="code-label">formato</span>
+            <pre class="code-body">ci,pin
+9491537,325658</pre>
+          </div>
+          <button type="submit" class="btn-primary btn-accent" id="btnImport" disabled>
+            <span class="btn-text">Importar</span>
+            <span class="btn-arrow">&rarr;</span>
+          </button>
+        </form>
+        <div id="importResult" class="alert hidden"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <button class="cam-btn" id="camToggle" onclick="toggleCamera()">
+      <span class="cam-dot"></span>
+      <span>cam</span>
+    </button>
+    <span class="footer-copy">2026</span>
+  </footer>
+</div>
+
+<script src="/static/app.js"></script>
+<script src="/static/rain.js"></script>
+</body>
+</html>
