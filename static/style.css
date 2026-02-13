@@ -153,12 +153,12 @@ body {
 
 /* === Panel === */
 .panel {
-  background: rgba(10, 14, 28, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(5, 8, 16, 0.4);
+  border: none;
   border-radius: 14px;
   padding: 36px 32px;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   animation: fadeUp 0.5s var(--ease) 0.3s both;
 }
 
@@ -168,18 +168,19 @@ body {
 .input-group label {
   display: block;
   font-size: 14px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
   margin-bottom: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 .input-group input {
   width: 100%;
   padding: 18px 20px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   color: #fff;
   font-family: var(--mono);
@@ -201,35 +202,55 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
 }
 
-/* === Buttons === */
-.btn-primary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* === Numpad === */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  width: 100%;
-  padding: 18px 24px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
+  margin-top: 4px;
+}
+
+.numpad-key {
+  padding: 20px 0;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   color: #fff;
-  font-family: var(--font);
-  font-size: 16px;
+  font-family: var(--mono);
+  font-size: 28px;
   font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s var(--ease);
+  transition: all 0.15s var(--ease);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
-.btn-primary:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.3);
-  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+.numpad-key:active {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(0.96);
 }
 
-.btn-primary:disabled {
-  opacity: 0.2;
+.numpad-del {
+  font-size: 24px;
+  color: var(--text-dim);
+}
+
+.numpad-go {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+}
+
+.numpad-go:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.numpad-go:disabled {
+  opacity: 0.3;
   cursor: not-allowed;
 }
 
@@ -301,6 +322,7 @@ body {
   padding: 8px 0;
   margin-bottom: 12px;
   transition: color 0.3s var(--ease);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 .btn-back:hover {
@@ -320,6 +342,7 @@ body {
   font-weight: 600;
   color: #fff;
   letter-spacing: -0.01em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
 }
 
 .results-count {
@@ -328,17 +351,18 @@ body {
   color: var(--text-dim);
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 /* === Materia Cards === */
 .materia-card {
-  background: rgba(10, 14, 28, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(5, 8, 16, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 18px;
   padding: 36px 40px;
   margin-bottom: 16px;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: all 0.3s var(--ease);
   animation: fadeUp 0.4s var(--ease) both;
 }
@@ -349,7 +373,7 @@ body {
   color: #fff;
   margin-bottom: 28px;
   line-height: 1.15;
-  text-shadow: 0 0 8px rgba(255,255,255,0.1);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 0 8px rgba(255,255,255,0.1);
 }
 
 .materia-hero {
@@ -371,8 +395,8 @@ body {
 .materia-hero-item:first-child {
   flex: 0 0 auto;
   min-width: 150px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 16px;
   padding: 24px 32px;
   text-align: center;
@@ -380,7 +404,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 40px rgba(255, 255, 255, 0.08), inset 0 0 24px rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.06);
 }
 
 .materia-hero-label {
@@ -390,6 +414,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.14em;
   margin-bottom: 8px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
 .materia-hero-item:first-child .materia-hero-label {
@@ -401,9 +426,10 @@ body {
 
 .materia-hero-value {
   font-size: 20px;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   font-weight: 400;
   line-height: 1.3;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 .materia-aula {
@@ -423,6 +449,7 @@ body {
   font-size: 15px;
   color: var(--text-dim);
   letter-spacing: 0.04em;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
 .empty {
@@ -579,4 +606,5 @@ body {
   .hero-title { letter-spacing: 0.25em; }
   .materia-card { padding: 28px 22px; }
   .results-name { font-size: 20px; }
+  .numpad-key { padding: 16px 0; font-size: 24px; }
 }

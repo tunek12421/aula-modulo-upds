@@ -1,3 +1,16 @@
+// === Numpad ===
+var ciInput = document.getElementById('ci');
+document.querySelectorAll('.numpad-key[data-key]').forEach(function (key) {
+  key.addEventListener('click', function () {
+    var val = key.getAttribute('data-key');
+    if (val === 'del') {
+      ciInput.value = ciInput.value.slice(0, -1);
+    } else {
+      if (ciInput.value.length < 10) ciInput.value += val;
+    }
+  });
+});
+
 // === Consultar ===
 document.getElementById('loginForm').addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -5,8 +18,10 @@ document.getElementById('loginForm').addEventListener('submit', async function (
   var errorBox = document.getElementById('errorBox');
   var results = document.getElementById('results');
 
+  if (!ciInput.value.trim()) return;
+
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span><span class="btn-text">Consultando...</span>';
+  btn.innerHTML = '<span class="spinner"></span>';
   errorBox.classList.add('hidden');
   results.classList.remove('visible');
   document.querySelector('.panel').classList.remove('hidden-panel');
@@ -16,7 +31,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     var resp = await fetch('/api/consultar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ci: document.getElementById('ci').value })
+      body: JSON.stringify({ ci: ciInput.value })
     });
     var data = await resp.json();
 
@@ -35,7 +50,6 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         '<span class="results-count">' + data.pendientes.length + ' materia(s) actual(es)</span>';
       data.pendientes.forEach(function (m, i) {
         var docente = m.ApellidoPaterno + ' ' + m.ApellidoMaterno + ' ' + m.NombreDocente;
-        // Parse aula number from Horario (e.g. "212 : LU a VI 07:15 - 10:15")
         var aula = '-';
         var horarioText = m.Horario || '';
         var parts = horarioText.split(':');
@@ -83,7 +97,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     errorBox.classList.remove('hidden');
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<span class="btn-text">Consultar</span><span class="btn-arrow">&rarr;</span>';
+    btn.innerHTML = '<span class="btn-text">IR</span>';
   }
 });
 
@@ -92,12 +106,5 @@ document.getElementById('btnBack').addEventListener('click', function () {
   document.getElementById('results').classList.remove('visible');
   document.querySelector('.panel').classList.remove('hidden-panel');
   document.querySelector('.hero').classList.remove('hidden-panel');
+  ciInput.value = '';
 });
-
-// === Helpers ===
-function infoCard(label, value) {
-  return '<div class="info-card"><div class="info-card-label">' + label + '</div><div class="info-card-value">' + (value || '-') + '</div></div>';
-}
-function mfield(label, value) {
-  return '<div class="materia-field"><div class="materia-field-label">' + label + '</div><div class="materia-field-value">' + (value || '-') + '</div></div>';
-}
